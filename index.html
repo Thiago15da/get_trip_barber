@@ -3,73 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Get Trip | Reservas</title>
+    <title>Get Trip Barber Club | Reservas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #eeb93a; --bg: #121212; --card: #1e1e1e; }
-        body { background: var(--bg); color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; padding: 20px; }
-        .booking-card { background: var(--card); padding: 30px; border-radius: 12px; width: 100%; max-width: 400px; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        h2 { color: var(--gold); text-align: center; text-transform: uppercase; letter-spacing: 2px; }
-        label { display: block; margin-bottom: 8px; color: var(--gold); font-size: 0.75rem; font-weight: bold; }
-        input, select { width: 100%; padding: 12px; margin-bottom: 20px; background: #000; border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box; }
+        :root { --gold: #eeb93a; --bg: #121212; --card: #1e1e1e; --text: #f4f1ea; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--bg); color: var(--text); line-height: 1.6; }
+        
+        .container { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; 
+            background: linear-gradient(rgba(18,18,18,0.9), rgba(18,18,18,0.9)), url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=2074&auto=format&fit=crop');
+            background-size: cover; background-position: center; }
+
+        .form-card { background: var(--card); padding: 40px; border-radius: 4px; width: 100%; max-width: 500px; border: 1px solid #333; box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+        
+        h1 { font-family: 'Oswald', sans-serif; color: var(--gold); text-align: center; font-size: 2.2rem; letter-spacing: 3px; margin-bottom: 10px; text-transform: uppercase; }
+        p.subtitle { text-align: center; color: #888; font-size: 0.8rem; margin-bottom: 30px; letter-spacing: 1px; }
+
+        .field { margin-bottom: 20px; }
+        label { display: block; font-family: 'Oswald', sans-serif; color: var(--gold); font-size: 0.75rem; letter-spacing: 1.5px; margin-bottom: 8px; text-transform: uppercase; }
+        
+        input, select { width: 100%; padding: 12px; background: #000; border: 1px solid #444; color: white; font-family: 'Montserrat', sans-serif; transition: 0.3s; }
         input:focus { border-color: var(--gold); outline: none; }
-        .btn { width: 100%; padding: 15px; background: var(--gold); border: none; font-weight: bold; cursor: pointer; transition: 0.3s; border-radius: 4px; }
-        .btn:hover { background: #d4a22c; transform: translateY(-2px); }
-        .btn:disabled { background: #555; cursor: not-allowed; }
-        #statusMsg { margin-top: 15px; text-align: center; font-size: 0.85rem; padding: 10px; border-radius: 4px; display: none; }
+
+        .btn-submit { width: 100%; padding: 15px; background: var(--gold); border: none; font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 1rem; cursor: pointer; transition: 0.4s; letter-spacing: 2px; margin-top: 10px; }
+        .btn-submit:hover { background: #d4a22c; transform: translateY(-2px); }
+        .btn-submit:disabled { background: #444; cursor: not-allowed; }
+
+        #status { margin-top: 20px; padding: 15px; text-align: center; font-size: 0.85rem; display: none; border-radius: 2px; }
     </style>
 </head>
 <body>
 
-<div class="booking-card">
-    <h2>Agendar Turno</h2>
-    <p style="text-align: center; color: #888; font-size: 0.8rem; margin-bottom: 20px;">Atención de 09:00 a 20:00 hs</p>
-    
-    <form id="reservaForm">
-        <label>NOMBRE COMPLETO</label>
-        <input type="text" id="nombre" required placeholder="Ej: Thiago Escobar">
+<div class="container">
+    <div class="form-card">
+        <h1>Get Trip</h1>
+        <p class="subtitle">BARBER CLUB • RESERVAS ONLINE</p>
+        
+        <form id="bookingForm">
+            <div class="field">
+                <label>Nombre Completo</label>
+                <input type="text" id="nombre" name="nombre" required placeholder="Ej: Thiago David">
+            </div>
 
-        <label>CORREO ELECTRÓNICO</label>
-        <input type="email" id="email" required placeholder="Para recibir tu confirmación">
+            <div class="field">
+                <label>Email de Confirmación</label>
+                <input type="email" id="email" name="email" required placeholder="tu@email.com">
+            </div>
 
-        <label>FECHA</label>
-        <input type="date" id="fecha" required>
+            <div style="display: flex; gap: 15px;">
+                <div class="field" style="flex: 1;">
+                    <label>Fecha</label>
+                    <input type="date" id="fecha" name="fecha" required>
+                </div>
+                <div class="field" style="flex: 1;">
+                    <label>Hora</label>
+                    <input type="time" id="hora" name="hora" required min="09:00" max="20:00" step="1800">
+                </div>
+            </div>
 
-        <label>HORARIO (Intervalos de 30 min)</label>
-        <input type="time" id="hora" required min="09:00" max="20:00" step="1800">
+            <div class="field">
+                <label>Servicio</label>
+                <select id="servicio" name="servicio">
+                    <option value="Corte de Autor">Corte de Autor</option>
+                    <option value="Ritual de Barba">Ritual de Barba</option>
+                    <option value="Combo Get Trip">Combo Get Trip</option>
+                </select>
+            </div>
 
-        <label>SERVICIO</label>
-        <select id="servicio">
-            <option value="Corte de Autor">Corte de Autor</option>
-            <option value="Perfilado de Barba">Perfilado de Barba</option>
-            <option value="Combo Get Trip">Combo Get Trip</option>
-        </select>
-
-        <button type="submit" class="btn" id="btnSubmit">CONFIRMAR RESERVA</button>
-        <div id="statusMsg"></div>
-    </form>
+            <button type="submit" class="btn-submit" id="submitBtn">AGENDAR TURNO</button>
+            <div id="status"></div>
+        </form>
+    </div>
 </div>
 
 <script>
-    // 1. Limitar fecha a hoy o futuro
-    const inputFecha = document.getElementById('fecha');
-    const hoy = new Date().toISOString().split("T")[0];
-    inputFecha.setAttribute('min', hoy);
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwl409sE2RRnV2bExxtiIPsTOBHywOsd9d-sCdmlxsu_sYqHzQ2997-bhMYwIX05oSM/exec';
+    const form = document.getElementById('bookingForm');
+    const btn = document.getElementById('submitBtn');
+    const status = document.getElementById('status');
 
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwndYyLKWj21LtS4tf2Mk6vdqaeE7EjRRzmj24Dw7pdjG6iNTQpBy__RJx-7mfHHWcm/exec';
+    // Bloquear fechas pasadas
+    document.getElementById('fecha').min = new Date().toISOString().split("T")[0];
 
-    document.getElementById('reservaForm').addEventListener('submit', function(e) {
+    form.addEventListener('submit', e => {
         e.preventDefault();
-        const btn = document.getElementById('btnSubmit');
-        const msg = document.getElementById('statusMsg');
-
         btn.disabled = true;
-        btn.innerText = "VERIFICANDO...";
-        msg.style.display = "block";
-        msg.style.background = "#333";
-        msg.style.color = "white";
-        msg.innerText = "Procesando tu reserva...";
+        btn.innerText = "PROCESANDO...";
+        status.style.display = "block";
+        status.style.background = "#222";
+        status.style.color = var(--gold);
+        status.innerText = "Verificando disponibilidad...";
 
-        const payload = {
+        const formData = {
             nombre: document.getElementById('nombre').value,
             email: document.getElementById('email').value,
             fecha: document.getElementById('fecha').value,
@@ -77,23 +102,24 @@
             servicio: document.getElementById('servicio').value
         };
 
-        fetch(SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            body: JSON.stringify(payload)
+        fetch(scriptURL, { 
+            method: 'POST', 
+            mode: 'no-cors', 
+            body: JSON.stringify(formData)
         })
         .then(() => {
-            msg.style.background = "#2e7d32";
-            msg.innerText = "¡Listo! Revisá tu correo para la confirmación.";
-            this.reset();
+            status.style.background = "#1b4332";
+            status.style.color = "#8fce00";
+            status.innerText = "¡Éxito! Tu reserva ha sido enviada. Revisá tu email.";
+            form.reset();
             btn.disabled = false;
-            btn.innerText = "CONFIRMAR RESERVA";
+            btn.innerText = "AGENDAR TURNO";
         })
-        .catch(err => {
-            msg.style.background = "#c62828";
-            msg.innerText = "Error al conectar. Intentá de nuevo.";
+        .catch(error => {
+            status.style.background = "#431b1b";
+            status.style.color = "#ff4d4d";
+            status.innerText = "Error de conexión. Intentá de nuevo.";
             btn.disabled = false;
-            btn.innerText = "CONFIRMAR RESERVA";
         });
     });
 </script>
